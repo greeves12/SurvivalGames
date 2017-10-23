@@ -1,0 +1,7 @@
+main: com.tatemylove.SurvivalGames.Main
+author: tatemylove:
+version: 1
+name: SurvivalGames
+commands:
+  sg:
+    usage: /<command>
