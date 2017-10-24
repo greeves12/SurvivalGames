@@ -1,6 +1,7 @@
 package com.tatemylove.SurvivalGames.Arena;
 
 import com.tatemylove.SurvivalGames.Files.ArenaFile;
+import com.tatemylove.SurvivalGames.Files.SpawnsFile;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -33,30 +34,15 @@ public class GetArena {
         return CurrentArena;
     }
 
-    public static Location getBlueSpawn(){
+    public static Location getRedSpawn(int id){
         final double x;
         final double y;
         final double z;
         final World world;
-        world = Bukkit.getServer().getWorld(ArenaFile.getData().getString("Arenas." + getNextArena() + ".Spawns.Blue.World"));
-        x = ArenaFile.getData().getDouble("Arenas." + getNextArena() + ".Spawns.Blue.X");
-        y = ArenaFile.getData().getDouble("Arenas." + getNextArena() + ".Spawns.Blue.Y");
-        z = ArenaFile.getData().getDouble("Arenas." + getNextArena() + ".Spawns.Blue.Z");
-
-        Location blueSpawn = new Location(world, x,y,z);
-
-        return blueSpawn;
-    }
-
-    public static Location getRedSpawn(){
-        final double x;
-        final double y;
-        final double z;
-        final World world;
-        world = Bukkit.getWorld(ArenaFile.getData().getString("Arenas." + getNextArena() + ".Spawns.Red.World"));
-        x = ArenaFile.getData().getDouble("Arenas." + getNextArena() + ".Spawns.Red.X");
-        y = ArenaFile.getData().getDouble("Arenas." + getNextArena() + ".Spawns.Red.Y");
-        z = ArenaFile.getData().getDouble("Arenas." + getNextArena() + ".Spawns.Red.Z");
+        world = Bukkit.getWorld(SpawnsFile.getData().getString("Spawns." + id + ".Spawns.Red.World"));
+        x = SpawnsFile.getData().getDouble("Spawns." + id + ".Spawns.Red.X");
+        y = SpawnsFile.getData().getDouble("Spawns." + id + ".Spawns.Red.Y");
+        z = SpawnsFile.getData().getDouble("Spawns." + id + ".Spawns.Red.Z");
 
         Location redSpawn = new Location(world, x, y, z);
         return redSpawn;

@@ -1,12 +1,26 @@
 package com.tatemylove.SurvivalGames;
 
 import com.tatemylove.SurvivalGames.Arena.BaseArena;
+import com.tatemylove.SurvivalGames.Arena.GracePeriodCountDown;
+import com.tatemylove.SurvivalGames.Arena.SetLobby;
+import com.tatemylove.SurvivalGames.Arena.WaitingCountdown;
+import com.tatemylove.SurvivalGames.Inventories.Inventories;
 import com.tatemylove.SurvivalGames.ThisPlugin.ThisPlugin;
+import com.tatemylove.SurvivalGames.Utilities.SendCoolMessages;
+import net.minecraft.server.v1_8_R3.PacketPlayInClientCommand;
+import org.bukkit.*;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -17,9 +31,15 @@ public class Listeners implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
         Player p = e.getPlayer();
+        int k = ThisPlugin.getPlugin().getConfig().getInt("server-id");
+        String header = ChatColor.translateAlternateColorCodes('&', ThisPlugin.getPlugin().getConfig().getString("header"));
+        String footer = ChatColor.translateAlternateColorCodes('&', ThisPlugin.getPlugin().getConfig().getString("footer").replace("%id%", String.valueOf(k)));
         if(BaseArena.states == BaseArena.ArenaStates.Countdown){
             Main.WaitingPlayers.add(p);
             e.setJoinMessage(Main.prefix + p.getName() + " has joined the queue!");
+            p.getInventory().clear();
+            p.getInventory().setItem(8, Inventories.itemAPI(Material.GLOWSTONE_DUST, "Return to hub", null));
+            p.teleport(SetLobby.getLobby());
         }
         if(BaseArena.states == BaseArena.ArenaStates.Started){
             ByteArrayOutputStream b = new ByteArrayOutputStream();
@@ -33,6 +53,7 @@ public class Listeners implements Listener {
             p.sendPluginMessage(ThisPlugin.getPlugin(), "BungeeCord", b.toByteArray());
             e.setJoinMessage(null);
         }
+        SendCoolMessages.TabHeaderAndFooter(header, footer, p);
     }
     @EventHandler
     public void onLeave(PlayerQuitEvent e){
@@ -44,5 +65,117 @@ public class Listeners implements Listener {
             Main.WaitingPlayers.remove(p);
         }
         e.setQuitMessage(null);
+    }
+    @EventHandler
+    public void stopMove(PlayerMoveEvent e){
+        if(WaitingCountdown.timuntilstart > 0){
+            e.setCancelled(true);
+        }
+        if(WaitingCountdown.timuntilstart <= 0){
+            e.setCancelled(false);
+        }
+    }
+    @EventHandler
+    public void cancelDamage(EntityDamageEvent e){
+        Player p = (Player) e.getEntity();
+        Entity entity = e.getEntity();
+        if(Main.WaitingPlayers.contains(p)){
+            e.setCancelled(true);
+        }
+        if(Main.PlayingPlayers.contains(p)){
+            if(GracePeriodCountDown.timeuntilstart > 0){
+                if(e.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK){
+                    if(entity instanceof Player){
+                        e.setCancelled(true);
+                    }
+                }
+            }
+            if(GracePeriodCountDown.timeuntilstart < 0){
+                e.setCancelled(false);
+            }
+        }
+    }
+    @EventHandler
+    public void playerDeath(PlayerDeathEvent e){
+        Player p = e.getEntity();
+        final CraftPlayer craftPlayer = (CraftPlayer) p;
+
+        World  world = p.getWorld();
+        Location location = p.getLocation();
+        world.strikeLightning(location);
+
+        if(Main.PlayingPlayers.contains(p)) {
+            ByteArrayOutputStream b = new ByteArrayOutputStream();
+            DataOutputStream out = new DataOutputStream(b);
+            try{
+                out.writeUTF("Connect");
+                out.writeUTF("lobby");
+            }catch (IOException ei){
+
+            }
+            p.sendPluginMessage(ThisPlugin.getPlugin(), "BungeeCord", b.toByteArray());
+        }
+        ThisPlugin.getPlugin().getServer().getScheduler().scheduleSyncDelayedTask(ThisPlugin.getPlugin(), new Runnable() {
+            @Override
+            public void run() {
+                if(p.isDead()){
+                    craftPlayer.getHandle().playerConnection.a(new PacketPlayInClientCommand(PacketPlayInClientCommand.EnumClientCommand.PERFORM_RESPAWN));
+                }
+            }
+        });
+        for(Player pp : Main.PlayingPlayers){
+            pp.sendMessage(Main.prefix + "Player: " + p.getName() + " has been killed by " + p.getKiller().getName());
+        }
+    }
+    @EventHandler
+    public void cancelBreaking(BlockBreakEvent e){
+        Player p = e.getPlayer();
+        if(Main.WaitingPlayers.contains(p)){
+            e.setCancelled(true);
+        }
+    }
+    @EventHandler
+    public void cancelBlockPlacing(BlockPlaceEvent e){
+        Player p = e.getPlayer();
+        if(Main.WaitingPlayers.contains(p)){
+            e.setCancelled(true);
+        }
+    }
+    @EventHandler
+    public void itemInteract(PlayerInteractEvent e){
+        Player p = e.getPlayer();
+        Action action = e.getAction();
+        if(Main.WaitingPlayers.contains(p)){
+            if(action == Action.RIGHT_CLICK_AIR && p.getItemInHand().getType() == Material.GLOWSTONE_DUST){
+                ByteArrayOutputStream b = new ByteArrayOutputStream();
+                DataOutputStream out = new DataOutputStream(b);
+                try{
+                    out.writeUTF("Connect");
+                    out.writeUTF("lobby");
+
+                }catch(IOException ei){
+
+                }
+                p.sendPluginMessage(ThisPlugin.getPlugin(), "BungeeCord", b.toByteArray());
+            }
+        }
+    }
+    @EventHandler
+    public void cancelDrop(PlayerDropItemEvent e){
+        Player p = e.getPlayer();
+        if(Main.WaitingPlayers.contains(p)){
+            if(!p.hasPermission("sg.drop")){
+                e.setCancelled(true);
+            }
+        }
+    }
+    @EventHandler
+    public void moveInventory(InventoryClickEvent e){
+        Player p = (Player) e.getWhoClicked();
+        if(Main.WaitingPlayers.contains(p)){
+            if(!p.hasPermission("sg.moveitem")){
+                e.setCancelled(true);
+            }
+        }
     }
 }

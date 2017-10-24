@@ -22,7 +22,7 @@ public class SetLobby {
         LobbyFile.reloadData();
         p.sendMessage(Main.prefix + "You set the lobby!");
     }
-    public static Location getLobby(Player p){
+    public static Location getLobby(){
         final double x;
         final double y;
         final double z;

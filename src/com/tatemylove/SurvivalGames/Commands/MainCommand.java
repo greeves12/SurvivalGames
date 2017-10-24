@@ -27,10 +27,8 @@ public class MainCommand implements CommandExecutor {
                 if(p.hasPermission("sg.setspawns")){
                     String k = args[1];
                     int j = Integer.parseInt(k);
-                    String o = args[2];
-                    int i = Integer.parseInt(o);
 
-                    CreateArena.setSpawns(p, args, j, i);
+                    CreateArena.setSpawns(p, args, j);
                 }
             }
             if(args[0].equalsIgnoreCase("setlobby")){

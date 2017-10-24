@@ -1,6 +1,7 @@
 package com.tatemylove.SurvivalGames.Commands;
 
 import com.tatemylove.SurvivalGames.Files.ArenaFile;
+import com.tatemylove.SurvivalGames.Files.SpawnsFile;
 import com.tatemylove.SurvivalGames.Main;
 import org.bukkit.entity.Player;
 
@@ -24,35 +25,21 @@ public class CreateArena {
         ArenaFile.reloadData();
         p.sendMessage(Main.prefix + "§bArena: §a" + name  + " §bcreated with the ID §a" + newID);
     }
-    public static void setSpawns(Player p, String[] args, int id, int id2){
-        if (args.length == 4) {
-            if (args[2].equalsIgnoreCase("blue")) {
+    public static void setSpawns(Player p, String[] args, int id){
+        if (args.length == 3) {
+             if (args[2].equalsIgnoreCase("spawn")){
                 String world = p.getLocation().getWorld().getName();
                 double x = p.getLocation().getX();
                 double y = p.getLocation().getY();
                 double z = p.getLocation().getZ();
 
-                ArenaFile.getData().set("Arenas." + id + "." + id2 + ".Spawns.Blue.World", world);
-                ArenaFile.getData().set("Arenas." + id + "." + id2 + ".Spawns.Blue.X", x);
-                ArenaFile.getData().set("Arenas." + id + "." + id2 + ".Spawns.Blue.Y", y);
-                ArenaFile.getData().set("Arenas." + id + "." + id2 + ".Spawns.Blue.Z", z);
-                ArenaFile.saveData();
-                ArenaFile.reloadData();
-                p.sendMessage(Main.prefix + "You set the blue spawn! " + id2);
-
-            }else if (args[2].equalsIgnoreCase("red")){
-                String world = p.getLocation().getWorld().getName();
-                double x = p.getLocation().getX();
-                double y = p.getLocation().getY();
-                double z = p.getLocation().getZ();
-
-                ArenaFile.getData().set("Arenas." + id + "." + id2 + ".Spawns.Red.World", world);
-                ArenaFile.getData().set("Arenas." + id + "." + id2 + ".Spawns.Red.X", x);
-                ArenaFile.getData().set("Arenas." + id + "." + id2 + ".Spawns.Red.Y", y);
-                ArenaFile.getData().set("Arenas." + id + "." + id2 + ".Spawns.Red.Z", z);
-                ArenaFile.saveData();
-                ArenaFile.reloadData();
-                p.sendMessage(Main.prefix + "You set the red spawn! " + id2);
+                SpawnsFile.getData().set("Spawns." + id + ".Spawns.Red.World", world);
+                SpawnsFile.getData().set("Spawns." + id + ".Spawns.Red.X", x);
+                SpawnsFile.getData().set("Spawns." + id + ".Spawns.Red.Y", y);
+                SpawnsFile.getData().set("Spawns." + id + ".Spawns.Red.Z", z);
+                SpawnsFile.saveData();
+                SpawnsFile.reloadData();
+                p.sendMessage(Main.prefix + "You set the spawn! " + id);
             }
     }
 }

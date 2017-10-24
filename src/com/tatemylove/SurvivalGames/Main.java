@@ -1,12 +1,12 @@
 package com.tatemylove.SurvivalGames;
 
-import com.tatemylove.SurvivalGames.Arena.ActivePinger;
-import com.tatemylove.SurvivalGames.Arena.BaseArena;
-import com.tatemylove.SurvivalGames.Arena.EndingCountdown;
-import com.tatemylove.SurvivalGames.Arena.GameCountdown;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.tatemylove.SurvivalGames.Arena.*;
 import com.tatemylove.SurvivalGames.Commands.MainCommand;
 import com.tatemylove.SurvivalGames.Files.ArenaFile;
 import com.tatemylove.SurvivalGames.Files.LobbyFile;
+import com.tatemylove.SurvivalGames.Files.SpawnsFile;
 import com.tatemylove.SurvivalGames.ThisPlugin.ThisPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -21,8 +21,12 @@ public class Main extends JavaPlugin {
     public static int min_players = 1;
     public static int gamecountdownid;
     public static int endingcountdownid;
+    public static int waitingcountdownid;
+    public static int graceperiod;
+    public ProtocolManager manager;
 
     public void onEnable(){
+        manager = ProtocolLibrary.getProtocolManager();
         Bukkit.getServer().getPluginManager().registerEvents(new Listeners(), this);
         MainCommand cmd = new MainCommand();
         getCommand("sg").setExecutor(cmd);
@@ -33,6 +37,7 @@ public class Main extends JavaPlugin {
 
         ArenaFile.setup(this);
         LobbyFile.setup(this);
+        SpawnsFile.setup(this);
 
         BaseArena.states = BaseArena.ArenaStates.Countdown;
 
@@ -52,5 +57,19 @@ public class Main extends JavaPlugin {
     public static void startEndingCountdown(){
         endingcountdownid = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(ThisPlugin.getPlugin(), new EndingCountdown(), 0L, 20L);
         EndingCountdown.timeuntilend = 5;
+    }
+    public static void startWaitingCountdown(){
+        waitingcountdownid = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(ThisPlugin.getPlugin(), new WaitingCountdown(), 0L, 20L);
+        WaitingCountdown.timuntilstart = 10;
+    }
+    public static void stopWaitingCountdown(){
+        Bukkit.getServer().getScheduler().cancelTask(waitingcountdownid);
+    }
+    public static void startGracePeriod(){
+        graceperiod = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(ThisPlugin.getPlugin(), new GracePeriodCountDown(), 0L, 20L);
+        GracePeriodCountDown.timeuntilstart = 60;
+    }
+    public static void stopGracePeriod(){
+        Bukkit.getServer().getScheduler().cancelTask(graceperiod);
     }
 }
