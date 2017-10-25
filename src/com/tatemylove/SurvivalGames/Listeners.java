@@ -11,6 +11,7 @@ import net.minecraft.server.v1_8_R3.PacketPlayInClientCommand;
 import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,6 +19,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
@@ -36,9 +38,9 @@ public class Listeners implements Listener {
         String footer = ChatColor.translateAlternateColorCodes('&', ThisPlugin.getPlugin().getConfig().getString("footer").replace("%id%", String.valueOf(k)));
         if(BaseArena.states == BaseArena.ArenaStates.Countdown){
             Main.WaitingPlayers.add(p);
-            e.setJoinMessage(Main.prefix + p.getName() + " has joined the queue!");
+            e.setJoinMessage(Main.prefix + "§e" + p.getName() + " §bhas joined the queue!");
             p.getInventory().clear();
-            p.getInventory().setItem(8, Inventories.itemAPI(Material.GLOWSTONE_DUST, "Return to hub", null));
+            p.getInventory().setItem(8, Inventories.itemAPI(Material.GLOWSTONE_DUST, "§bReturn to hub", null));
             p.teleport(SetLobby.getLobby());
         }
         if(BaseArena.states == BaseArena.ArenaStates.Started){
@@ -53,6 +55,7 @@ public class Listeners implements Listener {
             p.sendPluginMessage(ThisPlugin.getPlugin(), "BungeeCord", b.toByteArray());
             e.setJoinMessage(null);
         }
+        SendCoolMessages.TabHeaderAndFooter("", "", p);
         SendCoolMessages.TabHeaderAndFooter(header, footer, p);
     }
     @EventHandler
@@ -69,31 +72,38 @@ public class Listeners implements Listener {
     @EventHandler
     public void stopMove(PlayerMoveEvent e){
         if(WaitingCountdown.timuntilstart > 0){
-            e.setCancelled(true);
+            Player p = e.getPlayer();
+            Location f = e.getFrom();
+            Location t = e.getTo();
+            if ((Main.PlayingPlayers.contains(p))){
+
+            if((f.getBlockX() != t.getBlockX()) || (f.getBlockY() != t.getBlockY()) || (f.getBlockZ() != t.getBlockZ())) {
+                e.setTo(f);
+            }
         }
-        if(WaitingCountdown.timuntilstart <= 0){
-            e.setCancelled(false);
         }
     }
     @EventHandler
     public void cancelDamage(EntityDamageEvent e){
-        Player p = (Player) e.getEntity();
         Entity entity = e.getEntity();
-        if(Main.WaitingPlayers.contains(p)){
-            e.setCancelled(true);
-        }
-        if(Main.PlayingPlayers.contains(p)){
-            if(GracePeriodCountDown.timeuntilstart > 0){
-                if(e.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK){
-                    if(entity instanceof Player){
-                        e.setCancelled(true);
+        if(entity instanceof Player){
+            Player p = (Player) entity;
+            if(Main.WaitingPlayers.contains(p)){
+                e.setCancelled(true);
+            }
+            if(Main.PlayingPlayers.contains(p)){
+                if(GracePeriodCountDown.timeuntilstart > 0){
+                    if(e.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK){
+                            e.setCancelled(true);
                     }
                 }
-            }
-            if(GracePeriodCountDown.timeuntilstart < 0){
-                e.setCancelled(false);
+                if(GracePeriodCountDown.timeuntilstart < 0){
+                    e.setCancelled(false);
+                }
             }
         }
+
+
     }
     @EventHandler
     public void playerDeath(PlayerDeathEvent e){
@@ -124,21 +134,25 @@ public class Listeners implements Listener {
             }
         });
         for(Player pp : Main.PlayingPlayers){
-            pp.sendMessage(Main.prefix + "Player: " + p.getName() + " has been killed by " + p.getKiller().getName());
+            pp.sendMessage(Main.prefix + "§aPlayer: " + p.getName() + " §6has been killed by §c" + p.getKiller().getName());
         }
     }
     @EventHandler
     public void cancelBreaking(BlockBreakEvent e){
         Player p = e.getPlayer();
-        if(Main.WaitingPlayers.contains(p)){
-            e.setCancelled(true);
+        if(Main.WaitingPlayers.contains(p)) {
+            if (!p.hasPermission("sg.break")) {
+                e.setCancelled(true);
+            }
         }
     }
     @EventHandler
     public void cancelBlockPlacing(BlockPlaceEvent e){
         Player p = e.getPlayer();
-        if(Main.WaitingPlayers.contains(p)){
-            e.setCancelled(true);
+        if(Main.WaitingPlayers.contains(p)) {
+            if (!p.hasPermission("sg.place")) {
+                e.setCancelled(true);
+            }
         }
     }
     @EventHandler
@@ -176,6 +190,13 @@ public class Listeners implements Listener {
             if(!p.hasPermission("sg.moveitem")){
                 e.setCancelled(true);
             }
+        }
+    }
+    @EventHandler
+    public void foodChange(FoodLevelChangeEvent e){
+        Player p = (Player) e.getEntity();
+        if(Main.WaitingPlayers.contains(p)){
+            e.setCancelled(true);
         }
     }
 }

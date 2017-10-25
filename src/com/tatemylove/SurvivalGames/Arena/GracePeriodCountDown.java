@@ -12,13 +12,13 @@ public class GracePeriodCountDown extends BukkitRunnable {
         if(BaseArena.states == BaseArena.ArenaStates.Started){
         if(timeuntilstart == 0) {
             for (Player p : Main.PlayingPlayers) {
-                SendCoolMessages.sendTitle(p, "Combat has started!", 30, 50, 30);
+                SendCoolMessages.sendTitle(p, "§5Combat has started!", 30, 50, 30);
             }
             Main.stopGracePeriod();
         }
         if(timeuntilstart % 10 == 0){
             for(Player p : Main.PlayingPlayers){
-                SendCoolMessages.sendTitle(p, timeuntilstart + " seconds!", 30, 50, 30);
+                SendCoolMessages.sendTitle(p, "§3" + timeuntilstart + " §2seconds!", 30, 50, 30);
             }
         }
         }

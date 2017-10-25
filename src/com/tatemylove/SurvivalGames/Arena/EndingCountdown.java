@@ -2,9 +2,13 @@ package com.tatemylove.SurvivalGames.Arena;
 
 import com.tatemylove.SurvivalGames.Main;
 import com.tatemylove.SurvivalGames.ThisPlugin.ThisPlugin;
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
+import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Firework;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -12,6 +16,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 public class EndingCountdown extends BukkitRunnable {
     public static int timeuntilend;
@@ -19,6 +24,13 @@ public class EndingCountdown extends BukkitRunnable {
     public void run() {
         if(BaseArena.states == BaseArena.ArenaStates.Ended){
             if(timeuntilend == 0){
+                World world = Bukkit.getServer().getWorld("sg");
+                List<Entity> entList = world.getEntities();
+                for(Entity current : entList){
+                    if(current instanceof Item){
+                        current.remove();
+                    }
+                }
                 for(Player p : Main.PlayingPlayers){
                     ByteArrayOutputStream b = new ByteArrayOutputStream();
                     DataOutputStream out = new DataOutputStream(b);
@@ -42,7 +54,7 @@ public class EndingCountdown extends BukkitRunnable {
                             .build());
                     fmeta.setPower(2);
                     f.setFireworkMeta(fmeta);
-                    p.sendMessage(Main.prefix + "Teleported you back to the Hub in " + timeuntilend + " seconds");
+                    p.sendMessage(Main.prefix + "§aTeleporting you back to the Hub in §5" + timeuntilend + " seconds");
                 }
             }
         }

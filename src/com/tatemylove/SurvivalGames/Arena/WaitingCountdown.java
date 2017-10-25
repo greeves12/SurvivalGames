@@ -11,18 +11,15 @@ public class WaitingCountdown extends BukkitRunnable {
     public void run() {
         if(BaseArena.states == BaseArena.ArenaStates.Started){
             if(timuntilstart == 0){
-                for(Player p: Main.PlayingPlayers){
-                    SendCoolMessages.sendTitle(p, "Game has started!", 30, 50, 30);
-                }
                 Main.stopWaitingCountdown();
                 Main.startGracePeriod();
             }
-            if(timuntilstart % 2 == 0){
+            if(timuntilstart % 1 == 0){
                 for(Player p : Main.PlayingPlayers){
-                    SendCoolMessages.sendTitle(p, "Game starting in " + timuntilstart, 10, 30, 10);
+                    SendCoolMessages.sendTitle(p, "§6Starting in §3" + timuntilstart + " §2seconds", 10, 30, 10);
                 }
             }
+            timuntilstart -= 1;
         }
-        timuntilstart -= 1;
     }
 }

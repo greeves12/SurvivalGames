@@ -39,7 +39,7 @@ public class CreateArena {
                 SpawnsFile.getData().set("Spawns." + id + ".Spawns.Red.Z", z);
                 SpawnsFile.saveData();
                 SpawnsFile.reloadData();
-                p.sendMessage(Main.prefix + "You set the spawn! " + id);
+                p.sendMessage(Main.prefix + "§bYou set the spawn! §c" + id);
             }
     }
 }

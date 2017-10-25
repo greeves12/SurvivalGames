@@ -20,7 +20,7 @@ public class SetLobby {
         LobbyFile.getData().set("Lobby.Z", z);
         LobbyFile.saveData();
         LobbyFile.reloadData();
-        p.sendMessage(Main.prefix + "You set the lobby!");
+        p.sendMessage(Main.prefix + "§bYou set the lobby!");
     }
     public static Location getLobby(){
         final double x;
