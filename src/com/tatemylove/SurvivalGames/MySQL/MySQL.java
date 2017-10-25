@@ -1,9 +1,12 @@
 package com.tatemylove.SurvivalGames.MySQL;
 
 
+import org.bukkit.entity.Player;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class MySQL {
     public static Connection connection;
@@ -22,5 +25,33 @@ public class MySQL {
         PreparedStatement ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS SGstats(uuid varchar(36), points int)");
         ps.executeUpdate();
         ps.close();
+    }
+    public static void firstWin(Player p){
+        int number = 1;
+        try {
+            if (!exists(p)) {
+                PreparedStatement ps = connection.prepareStatement("INSERT into SGstats(uuid, points)\nvalues('" + p.getUniqueId() + "', '" + number + "');");
+                ps.executeUpdate();
+                ps.close();
+            }
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    public static boolean exists(Player p){
+        try{
+            PreparedStatement ps = connection.prepareStatement("SELECT uuid FROM SGstats");
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                if(rs.getString("uuid").equals(p.getUniqueId().toString())) return true;
+            }
+            rs.close();
+            ps.close();
+            return false;
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
     }
 }
