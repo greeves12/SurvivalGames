@@ -7,6 +7,7 @@ import com.tatemylove.SurvivalGames.Commands.MainCommand;
 import com.tatemylove.SurvivalGames.Files.ArenaFile;
 import com.tatemylove.SurvivalGames.Files.LobbyFile;
 import com.tatemylove.SurvivalGames.Files.SpawnsFile;
+import com.tatemylove.SurvivalGames.MySQL.MySQL;
 import com.tatemylove.SurvivalGames.ThisPlugin.ThisPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -19,13 +20,20 @@ public class Main extends JavaPlugin {
     public static ArrayList<Player> WaitingPlayers = new ArrayList<>();
     public static ArrayList<Player> PlayingPlayers = new ArrayList<>();
     public static int min_players = 2;
-    public static int gamecountdownid;
-    public static int endingcountdownid;
-    public static int waitingcountdownid;
-    public static int graceperiod;
-    public ProtocolManager manager;
+    private static int gamecountdownid;
+    private static int endingcountdownid;
+    private static int waitingcountdownid;
+    private static int graceperiod;
+    private ProtocolManager manager;
+    private MySQL mySQL;
+    private static String ip = ThisPlugin.getPlugin().getConfig().getString("MySQL.Ip");
+    private static  String userName = ThisPlugin.getPlugin().getConfig().getString("MySQL.Username");
+    private static String password = ThisPlugin.getPlugin().getConfig().getString("MySQL.Password");
+    private static String db = ThisPlugin.getPlugin().getConfig().getString("MySQL.Database");
 
     public void onEnable() {
+            mySQL = new MySQL(ip, userName, password, db);
+
             manager = ProtocolLibrary.getProtocolManager();
             Bukkit.getServer().getPluginManager().registerEvents(new Listeners(), this);
             MainCommand cmd = new MainCommand();

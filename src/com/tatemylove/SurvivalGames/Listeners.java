@@ -102,15 +102,13 @@ public class Listeners implements Listener {
                 }
             }
         }
-
-
     }
     @EventHandler
     public void playerDeath(PlayerDeathEvent e){
         Player p = e.getEntity();
         final CraftPlayer craftPlayer = (CraftPlayer) p;
 
-        World  world = p.getWorld();
+        World world = p.getWorld();
         Location location = p.getLocation();
         world.strikeLightning(location);
 
@@ -141,18 +139,20 @@ public class Listeners implements Listener {
     public void cancelBreaking(BlockBreakEvent e){
         Player p = e.getPlayer();
         if(Main.WaitingPlayers.contains(p)) {
-            if (!p.hasPermission("sg.break")) {
                 e.setCancelled(true);
-            }
+        }
+        if(Main.PlayingPlayers.contains(p)){
+            e.setCancelled(true);
         }
     }
     @EventHandler
     public void cancelBlockPlacing(BlockPlaceEvent e){
         Player p = e.getPlayer();
         if(Main.WaitingPlayers.contains(p)) {
-            if (!p.hasPermission("sg.place")) {
                 e.setCancelled(true);
-            }
+        }
+        if(Main.PlayingPlayers.contains(p)){
+            e.setCancelled(true);
         }
     }
     @EventHandler

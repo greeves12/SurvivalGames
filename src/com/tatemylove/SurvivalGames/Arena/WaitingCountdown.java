@@ -10,9 +10,12 @@ public class WaitingCountdown extends BukkitRunnable {
     @Override
     public void run() {
         if(BaseArena.states == BaseArena.ArenaStates.Started){
-            if(timuntilstart == 0){
-                Main.stopWaitingCountdown();
-                Main.startGracePeriod();
+            if(timuntilstart == 0) {
+                for (Player p : Main.PlayingPlayers) {
+                    SendCoolMessages.sendTitle(p, "§cGrace Period Starting!", 10, 30, 10);
+                    Main.stopWaitingCountdown();
+                    Main.startGracePeriod();
+                }
             }
             if(timuntilstart % 1 == 0){
                 for(Player p : Main.PlayingPlayers){

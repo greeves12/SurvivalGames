@@ -8,7 +8,7 @@ public class ActivePinger extends BukkitRunnable {
     @Override
     public void run() {
         if(BaseArena.states == BaseArena.ArenaStates.Started){
-            if(Main.PlayingPlayers.size() == 1){
+            if(Main.PlayingPlayers.size() < Main.min_players){
                 BaseArena.states = BaseArena.ArenaStates.Ended;
                 Main.startEndingCountdown();
                 SG.endSG();

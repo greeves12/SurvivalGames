@@ -1,10 +1,23 @@
-#Configurations for greeves12's SurvivalGames
+##############################################
+#Configurations for greeves12's SurvivalGames#
+##############################################
 
+#########################################################
 #Let me handle these please
 server-id: 1
 
+#########################################################
 #Text for the header
 header: "&2&lRecon&f&l-&4&lNetwork"
 
 #Change the footer
 footer: "&2SurvivalGames &dServer ID # %id%"
+
+#########################################################
+#MySQL configuration
+ MySQL:
+   Username: Username
+   Password: Password
+   Ip: 0.0.0.0
+   Database: Database
+#########################################################

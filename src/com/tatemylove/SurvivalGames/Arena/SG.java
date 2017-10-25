@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Random;
 
 public class SG {
+
     public static void startSG(String id){
         if(BaseArena.states == BaseArena.ArenaStates.Started){
             if(ArenaFile.getData().contains("Arenas." + id + ".Name")){
@@ -28,16 +29,14 @@ public class SG {
                     p.setFoodLevel(20);
                 }
                 World world = Bukkit.getWorld("sg");
-
                 for (Chunk c : world.getLoadedChunks()) {
-
                     for (BlockState b : c.getTileEntities()) {
                         if (b instanceof Chest) {
                             Chest chest = (Chest) b;
                             Inventory inventory = chest.getBlockInventory();
-                            Material[] randomItens = {Material.COOKIE, Material.APPLE, Material.AIR, Material.STICK, Material.CARROT, Material.IRON_INGOT, Material.DIAMOND, Material.COBBLESTONE, Material.MUSHROOM_SOUP, Material.COOKED_FISH, Material.FISHING_ROD, Material.RAW_FISH, Material.COAL, Material.MELON, Material.GOLD_INGOT, Material.WOOD, Material.SUGAR, Material.BOW, Material.ARROW};
+                            Material[] randomItens = {Material.COOKIE, Material.APPLE, Material.AIR, Material.STICK, Material.CARROT, Material.IRON_INGOT, Material.DIAMOND, Material.COBBLESTONE, Material.MUSHROOM_SOUP, Material.COOKED_FISH, Material.FISHING_ROD, Material.RAW_FISH, Material.COAL, Material.MELON, Material.GOLD_INGOT, Material.WOOD, Material.SUGAR, Material.BOW, Material.ARROW, Material.WOOD_SWORD, Material.STONE_SWORD, Material.WOOD_AXE, Material.STONE_AXE, Material.PUMPKIN_PIE, Material.GRILLED_PORK, Material.APPLE};
                             Random randy = new Random();
-                            for (int i = 0; i < 3; i++) {
+                            for (int i = 0; i < 4; i++) {
                                 Random rand = new Random();
                                 inventory.setItem(randy.nextInt(27), new ItemStack(randomItens[rand.nextInt(randomItens.length)]));
                             }
@@ -47,6 +46,7 @@ public class SG {
             }
         }
     }
+
     public static void endSG(){
         if(BaseArena.states  == BaseArena.ArenaStates.Ended){
             for(Player p : Main.PlayingPlayers){
