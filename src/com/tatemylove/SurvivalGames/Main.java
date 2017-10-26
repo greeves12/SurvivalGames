@@ -24,14 +24,16 @@ public class Main extends JavaPlugin {
     private static int endingcountdownid;
     private static int waitingcountdownid;
     private static int graceperiod;
+    private static int delay;
     private ProtocolManager manager;
     private MySQL mySQL;
-    private static String ip = ThisPlugin.getPlugin().getConfig().getString("MySQL.Ip");
-    private static  String userName = ThisPlugin.getPlugin().getConfig().getString("MySQL.Username");
-    private static String password = ThisPlugin.getPlugin().getConfig().getString("MySQL.Password");
-    private static String db = ThisPlugin.getPlugin().getConfig().getString("MySQL.Database");
+
 
     public void onEnable() {
+        String ip = ThisPlugin.getPlugin().getConfig().getString("MySQL.Ip");
+        String userName = ThisPlugin.getPlugin().getConfig().getString("MySQL.Username");
+        String password = ThisPlugin.getPlugin().getConfig().getString("MySQL.Password");
+        String db = ThisPlugin.getPlugin().getConfig().getString("MySQL.Database");
             mySQL = new MySQL(ip, userName, password, db);
 
             manager = ProtocolLibrary.getProtocolManager();
@@ -81,4 +83,12 @@ public class Main extends JavaPlugin {
     public static void stopGracePeriod(){
         Bukkit.getServer().getScheduler().cancelTask(graceperiod);
     }
+    public static void startDelay(){
+        delay = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(ThisPlugin.getPlugin(), new DelayCountdown(), 0L, 20L);
+        DelayCountdown.timeuntilstart = 3;
+    }
+    public static void stopDelay(){
+        Bukkit.getServer().getScheduler().cancelTask(delay);
+    }
+
 }

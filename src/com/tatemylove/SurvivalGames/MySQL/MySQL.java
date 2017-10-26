@@ -27,7 +27,7 @@ public class MySQL {
         ps.close();
     }
     public static void firstWin(Player p){
-        int number = 1;
+        int number = 0;
         try {
             if (!exists(p)) {
                 PreparedStatement ps = connection.prepareStatement("INSERT into SGstats(uuid, points)\nvalues('" + p.getUniqueId() + "', '" + number + "');");
@@ -53,5 +53,14 @@ public class MySQL {
             e.printStackTrace();
         }
         return false;
+    }
+    public static void addWins(Player p){
+        try{
+            PreparedStatement ps = connection.prepareStatement("UPDATE SGstats SET points= points+1 WHERE uuid='" + p.getUniqueId().toString() + "'");
+            ps.executeUpdate();
+            ps.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }

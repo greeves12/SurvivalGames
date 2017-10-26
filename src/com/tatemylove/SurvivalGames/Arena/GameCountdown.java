@@ -20,10 +20,12 @@ public class GameCountdown extends BukkitRunnable{
             SG.startSG(Integer.toString(GetArena.getCurrentArena()));
             Main.startWaitingCountdown();
         }
-        if (timeuntilstart % 10 == 0) {
-            for (Player p : Main.WaitingPlayers) {
-                if (Main.WaitingPlayers.size() >= Main.min_players) {
-                    SendCoolMessages.sendTitle(p, "§3Starting in §a" + timeuntilstart + " §2seconds", 30, 50, 30);
+        if(timeuntilstart > 9) {
+            if (timeuntilstart % 10 == 0) {
+                for (Player p : Main.WaitingPlayers) {
+                    if (Main.WaitingPlayers.size() >= Main.min_players) {
+                        SendCoolMessages.sendTitle(p, "§3Starting in §a" + timeuntilstart + " §2seconds", 30, 50, 30);
+                    }
                 }
             }
         }

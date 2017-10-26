@@ -42,6 +42,7 @@ public class Listeners implements Listener {
             p.getInventory().clear();
             p.getInventory().setItem(8, Inventories.itemAPI(Material.GLOWSTONE_DUST, "§bReturn to hub", null));
             p.teleport(SetLobby.getLobby());
+            p.setFireTicks(0);
         }
         if(BaseArena.states == BaseArena.ArenaStates.Started){
             ByteArrayOutputStream b = new ByteArrayOutputStream();
@@ -107,12 +108,12 @@ public class Listeners implements Listener {
     public void playerDeath(PlayerDeathEvent e){
         Player p = e.getEntity();
         final CraftPlayer craftPlayer = (CraftPlayer) p;
-
+        Main.PlayingPlayers.remove(p);
         World world = p.getWorld();
         Location location = p.getLocation();
         world.strikeLightning(location);
 
-        if(Main.PlayingPlayers.contains(p)) {
+
             ByteArrayOutputStream b = new ByteArrayOutputStream();
             DataOutputStream out = new DataOutputStream(b);
             try{
@@ -122,7 +123,7 @@ public class Listeners implements Listener {
 
             }
             p.sendPluginMessage(ThisPlugin.getPlugin(), "BungeeCord", b.toByteArray());
-        }
+
         ThisPlugin.getPlugin().getServer().getScheduler().scheduleSyncDelayedTask(ThisPlugin.getPlugin(), new Runnable() {
             @Override
             public void run() {

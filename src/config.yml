@@ -15,9 +15,9 @@ footer: "&2SurvivalGames &dServer ID # %id%"
 
 #########################################################
 #MySQL configuration
- MySQL:
-   Username: Username
-   Password: Password
-   Ip: 0.0.0.0
-   Database: Database
+MySQL:
+  Username: Username
+  Password: Password
+  Ip: 0.0.0.0
+  Database: Database
 #########################################################

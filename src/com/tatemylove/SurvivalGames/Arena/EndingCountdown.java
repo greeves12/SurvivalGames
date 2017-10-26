@@ -25,7 +25,6 @@ public class EndingCountdown extends BukkitRunnable {
     public void run() {
         if(BaseArena.states == BaseArena.ArenaStates.Ended){
             if(timeuntilend == 0){
-
                 World world = Bukkit.getServer().getWorld("sg");
                 List<Entity> entList = world.getEntities();
                 for(Entity current : entList){
@@ -35,6 +34,7 @@ public class EndingCountdown extends BukkitRunnable {
                 }
                 for(Player p : Main.PlayingPlayers){
                     MySQL.firstWin(p);
+                    MySQL.addWins(p);
                     ByteArrayOutputStream b = new ByteArrayOutputStream();
                     DataOutputStream out = new DataOutputStream(b);
                     try{
