@@ -17,12 +17,24 @@ public class MySQL {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection("jdbc:mysql://" + ip + "/" + db + "?user=" + userName + "&password=" + password);
             createTable();
+            createKillsTable();
+            createDeathsTable();
         }catch(Exception e){
             e.printStackTrace();
         }
     }
     private static void createTable() throws Exception{
         PreparedStatement ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS SGstats(uuid varchar(36), points int)");
+        ps.executeUpdate();
+        ps.close();
+    }
+    private static void createKillsTable() throws Exception{
+        PreparedStatement ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS SGkills(uuid varchar(36), kills int)");
+        ps.executeUpdate();
+        ps.close();
+    }
+    private static void createDeathsTable() throws Exception{
+        PreparedStatement ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS SGdeaths(uuid, varchar(36), deaths int)");
         ps.executeUpdate();
         ps.close();
     }

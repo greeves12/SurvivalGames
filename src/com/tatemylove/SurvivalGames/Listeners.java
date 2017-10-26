@@ -6,6 +6,8 @@ import com.tatemylove.SurvivalGames.Arena.SetLobby;
 import com.tatemylove.SurvivalGames.Arena.WaitingCountdown;
 import com.tatemylove.SurvivalGames.Inventories.Inventories;
 import com.tatemylove.SurvivalGames.ThisPlugin.ThisPlugin;
+import com.tatemylove.SurvivalGames.Utilities.Deaths;
+import com.tatemylove.SurvivalGames.Utilities.Kills;
 import com.tatemylove.SurvivalGames.Utilities.SendCoolMessages;
 import net.minecraft.server.v1_8_R3.PacketPlayInClientCommand;
 import org.bukkit.*;
@@ -107,16 +109,21 @@ public class Listeners implements Listener {
     @EventHandler
     public void playerDeath(PlayerDeathEvent e){
         Player p = e.getEntity();
+        Player ppe = p.getKiller();
         final CraftPlayer craftPlayer = (CraftPlayer) p;
         Main.PlayingPlayers.remove(p);
         World world = p.getWorld();
         Location location = p.getLocation();
-        world.strikeLightning(location);
+        world.strikeLightningEffect(location);
 
+        Deaths.firstDeath(p);
+        Deaths.addDeaths(p);
+        Kills.firstKill(ppe);
+        Kills.addKills(ppe);
 
-            ByteArrayOutputStream b = new ByteArrayOutputStream();
-            DataOutputStream out = new DataOutputStream(b);
-            try{
+        ByteArrayOutputStream b = new ByteArrayOutputStream();
+        DataOutputStream out = new DataOutputStream(b);
+        try{
                 out.writeUTF("Connect");
                 out.writeUTF("lobby");
             }catch (IOException ei){
