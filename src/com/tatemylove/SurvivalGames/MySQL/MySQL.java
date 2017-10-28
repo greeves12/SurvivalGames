@@ -34,7 +34,7 @@ public class MySQL {
         ps.close();
     }
     private static void createDeathsTable() throws Exception{
-        PreparedStatement ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS SGdeaths(uuid, varchar(36), deaths int)");
+        PreparedStatement ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS SGdeaths(uuid varchar(36), deaths int)");
         ps.executeUpdate();
         ps.close();
     }
