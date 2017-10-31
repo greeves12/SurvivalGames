@@ -27,7 +27,7 @@ public class Kills {
         try {
             if (!exists(p)) {
                 int number = 0;
-                PreparedStatement ps = MySQL.connection.prepareStatement("INSERT into SGkills(uuid, kills)\nvalues('" + p.getUniqueId() + "', '" + number + "');");
+                PreparedStatement ps = MySQL.connection.prepareStatement("INSERT into SGkills(uuid, kills)\nvalues('" + p.getUniqueId().toString() + "', '" + number + "');");
                 ps.executeUpdate();
                 ps.close();
             }

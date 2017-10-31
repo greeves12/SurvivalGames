@@ -51,12 +51,11 @@ public class Listeners implements Listener {
             DataOutputStream out = new DataOutputStream(b);
             try{
                 out.writeUTF("Connect");
-                out.writeUTF("lobby");
+                out.writeUTF("sglobby");
             }catch (IOException ei){
 
             }
             p.sendPluginMessage(ThisPlugin.getPlugin(), "BungeeCord", b.toByteArray());
-            e.setJoinMessage(null);
         }
         SendCoolMessages.TabHeaderAndFooter("", "", p);
         SendCoolMessages.TabHeaderAndFooter(header, footer, p);
@@ -125,7 +124,7 @@ public class Listeners implements Listener {
         DataOutputStream out = new DataOutputStream(b);
         try{
                 out.writeUTF("Connect");
-                out.writeUTF("lobby");
+                out.writeUTF("sglobby");
             }catch (IOException ei){
 
             }
@@ -173,7 +172,7 @@ public class Listeners implements Listener {
                 DataOutputStream out = new DataOutputStream(b);
                 try{
                     out.writeUTF("Connect");
-                    out.writeUTF("lobby");
+                    out.writeUTF("sglobby");
 
                 }catch(IOException ei){
 

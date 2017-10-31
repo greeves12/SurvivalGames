@@ -39,7 +39,7 @@ public class EndingCountdown extends BukkitRunnable {
                     DataOutputStream out = new DataOutputStream(b);
                     try{
                         out.writeUTF("Connect");
-                        out.writeUTF("lobby");
+                        out.writeUTF("sglobby");
                     }catch (IOException e){
 
                     }

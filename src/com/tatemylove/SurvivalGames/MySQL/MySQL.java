@@ -24,17 +24,17 @@ public class MySQL {
         }
     }
     private static void createTable() throws Exception{
-        PreparedStatement ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS SGstats(uuid varchar(36), points int)");
+        PreparedStatement ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS SGstats(uuid varchar(36) NOT NULL, points int)");
         ps.executeUpdate();
         ps.close();
     }
     private static void createKillsTable() throws Exception{
-        PreparedStatement ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS SGkills(uuid varchar(36), kills int)");
+        PreparedStatement ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS SGkills(uuid varchar(36) NOT NULL, kills int)");
         ps.executeUpdate();
         ps.close();
     }
     private static void createDeathsTable() throws Exception{
-        PreparedStatement ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS SGdeaths(uuid varchar(36), deaths int)");
+        PreparedStatement ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS SGdeaths(uuid varchar(36) NOT NULL, deaths int)");
         ps.executeUpdate();
         ps.close();
     }
@@ -42,7 +42,7 @@ public class MySQL {
         int number = 0;
         try {
             if (!exists(p)) {
-                PreparedStatement ps = connection.prepareStatement("INSERT into SGstats(uuid, points)\nvalues('" + p.getUniqueId() + "', '" + number + "');");
+                PreparedStatement ps = connection.prepareStatement("INSERT into SGstats(uuid, points)\nvalues('" + p.getUniqueId().toString() + "', '" + number + "');");
                 ps.executeUpdate();
                 ps.close();
             }
