@@ -47,15 +47,7 @@ public class Listeners implements Listener {
             p.setFireTicks(0);
         }
         if(BaseArena.states == BaseArena.ArenaStates.Started){
-            ByteArrayOutputStream b = new ByteArrayOutputStream();
-            DataOutputStream out = new DataOutputStream(b);
-            try{
-                out.writeUTF("Connect");
-                out.writeUTF("sglobby");
-            }catch (IOException ei){
-
-            }
-            p.sendPluginMessage(ThisPlugin.getPlugin(), "BungeeCord", b.toByteArray());
+            e.setJoinMessage(null);
         }
         SendCoolMessages.TabHeaderAndFooter("", "", p);
         SendCoolMessages.TabHeaderAndFooter(header, footer, p);
@@ -122,7 +114,7 @@ public class Listeners implements Listener {
 
         ByteArrayOutputStream b = new ByteArrayOutputStream();
         DataOutputStream out = new DataOutputStream(b);
-        try{
+            try{
                 out.writeUTF("Connect");
                 out.writeUTF("sglobby");
             }catch (IOException ei){
