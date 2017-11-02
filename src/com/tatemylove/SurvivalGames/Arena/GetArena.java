@@ -43,8 +43,13 @@ public class GetArena {
         x = SpawnsFile.getData().getDouble("Spawns." + id + ".Spawns.Red.X");
         y = SpawnsFile.getData().getDouble("Spawns." + id + ".Spawns.Red.Y");
         z = SpawnsFile.getData().getDouble("Spawns." + id + ".Spawns.Red.Z");
+        String Pitch1 = SpawnsFile.getData().getString("Spawns." + id + ".Spawns.Red.Pitch");
+        String Yaw1 = SpawnsFile.getData().getString("Spawns." + id + ".Spawns.Red.Yaw");
 
-        Location redSpawn = new Location(world, x, y, z);
+        float Pitch = Float.parseFloat(Pitch1);
+        float Yaw = Float.parseFloat(Yaw1);
+
+        Location redSpawn = new Location(world, x, y, z, Pitch, Yaw);
         return redSpawn;
     }
 }

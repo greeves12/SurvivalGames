@@ -2,6 +2,7 @@ package com.tatemylove.SurvivalGames.Arena;
 
 
 import com.tatemylove.SurvivalGames.Files.ArenaFile;
+import com.tatemylove.SurvivalGames.Files.SpawnsFile;
 import com.tatemylove.SurvivalGames.Main;
 import com.tatemylove.SurvivalGames.Utilities.SendCoolMessages;
 import org.bukkit.*;
@@ -28,7 +29,7 @@ public class SG {
                     p.setHealth(20);
                     p.setFoodLevel(20);
                 }
-                World world = Bukkit.getWorld("sg");
+                World world = Bukkit.getServer().getWorld("sg");
                 for (Chunk c : world.getLoadedChunks()) {
                     for (BlockState b : c.getTileEntities()) {
                         if (b instanceof Chest) {
@@ -38,7 +39,7 @@ public class SG {
                             Random randy = new Random();
                             for (int i = 0; i < 4; i++) {
                                 Random rand = new Random();
-                                inventory.setItem(randy.nextInt(27), new ItemStack(randomItens[rand.nextInt(randomItens.length)]));
+                                inventory.setItem(randy.nextInt(26), new ItemStack(randomItens[rand.nextInt(randomItens.length)]));
                             }
                         }
                     }

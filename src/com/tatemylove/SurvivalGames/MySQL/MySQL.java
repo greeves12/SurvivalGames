@@ -19,6 +19,7 @@ public class MySQL {
             createTable();
             createKillsTable();
             createDeathsTable();
+            createCreditsTable();
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -35,6 +36,11 @@ public class MySQL {
     }
     private static void createDeathsTable() throws Exception{
         PreparedStatement ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS SGdeaths(uuid varchar(36) NOT NULL, deaths int)");
+        ps.executeUpdate();
+        ps.close();
+    }
+    private static void createCreditsTable() throws Exception{
+        PreparedStatement ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS Credits(uuid varchar(36) NOT NULL, credits int)");
         ps.executeUpdate();
         ps.close();
     }

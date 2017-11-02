@@ -6,10 +6,13 @@ import org.bukkit.entity.Player;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class Kills {
+/**
+ * Created by Tate on 11/1/2017.
+ */
+public class Credits {
     public static boolean exists(Player p){
         try{
-            PreparedStatement ps = MySQL.connection.prepareStatement("SELECT uuid FROM SGkills");
+            PreparedStatement ps = MySQL.connection.prepareStatement("SELECT uuid FROM Credits");
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 if(rs.getString("uuid").equals(p.getUniqueId().toString())) return true;
@@ -22,11 +25,11 @@ public class Kills {
         }
         return false;
     }
-    public static void firstKill(Player p){
-        try {
-            if (!exists(p)) {
+    public static void firstCredit(Player p){
+        try{
+            if(!exists(p)){
                 int number = 0;
-                PreparedStatement ps = MySQL.connection.prepareStatement("INSERT into SGkills(uuid, kills)\nvalues('" + p.getUniqueId().toString() + "', '" + number + "');");
+                PreparedStatement ps = MySQL.connection.prepareStatement("INSERT into Credits(uuid, credits)\nvalues('" + p.getUniqueId().toString() + "', '" + number + "');");
                 ps.executeUpdate();
                 ps.close();
             }
@@ -34,10 +37,10 @@ public class Kills {
             e.printStackTrace();
         }
     }
-    public static void addKills(Player p){
+    public static void addCredits(Player p){
         try{
             if(exists(p)){
-                PreparedStatement ps = MySQL.connection.prepareStatement("UPDATE SGkills SET kills= kills+1 WHERE uuid='" + p.getUniqueId().toString() + "'");
+                PreparedStatement ps = MySQL.connection.prepareStatement("UPDATE Credits SET credits= credits+10 WHERE uuid='" + p.getUniqueId().toString() + "'");
                 ps.executeUpdate();
                 ps.close();
             }

@@ -32,11 +32,15 @@ public class CreateArena {
                 double x = p.getLocation().getX();
                 double y = p.getLocation().getY();
                 double z = p.getLocation().getZ();
+                float pitch = p.getLocation().getPitch();
+                float yaw = p.getLocation().getYaw();
 
                 SpawnsFile.getData().set("Spawns." + id + ".Spawns.Red.World", world);
                 SpawnsFile.getData().set("Spawns." + id + ".Spawns.Red.X", x);
                 SpawnsFile.getData().set("Spawns." + id + ".Spawns.Red.Y", y);
                 SpawnsFile.getData().set("Spawns." + id + ".Spawns.Red.Z", z);
+                SpawnsFile.getData().set("Spawns." + id + ".Spawns.Red.Pitch", pitch);
+                SpawnsFile.getData().set("Spawns." + id + ".Spawns.Red.Yaw", yaw);
                 SpawnsFile.saveData();
                 SpawnsFile.reloadData();
                 p.sendMessage(Main.prefix + "§bYou set the spawn! §c" + id);
