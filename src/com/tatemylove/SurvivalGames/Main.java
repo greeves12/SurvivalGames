@@ -56,6 +56,7 @@ public class Main extends JavaPlugin {
             ThisPlugin.getPlugin().getConfig().options().copyDefaults(true);
             ThisPlugin.getPlugin().saveDefaultConfig();
             ThisPlugin.getPlugin().reloadConfig();
+            Bukkit.setWhitelist(false);
 
     }
     public static void startGameCountdown(){

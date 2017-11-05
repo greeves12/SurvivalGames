@@ -24,21 +24,6 @@ public class ActivePinger extends BukkitRunnable {
                 Main.startEndingCountdown();
                 SG.endSG();
             }
-            for(Player p : Bukkit.getOnlinePlayers()){
-                if(GameCountdown.timeuntilstart == 0) {
-                    if (!Main.PlayingPlayers.contains(p)) {
-                        ByteArrayOutputStream b = new ByteArrayOutputStream();
-                        DataOutputStream out = new DataOutputStream(b);
-                        try {
-                            out.writeUTF("Connect");
-                            out.writeUTF("sglobby");
-                        } catch (Exception e) {
-
-                        }
-                        p.sendPluginMessage(ThisPlugin.getPlugin(), "BungeeCord", b.toByteArray());
-                    }
-                }
-            }
         }
         if(BaseArena.states == BaseArena.ArenaStates.Ended || BaseArena.states == BaseArena.ArenaStates.Started){
             if(Bukkit.getOnlinePlayers().isEmpty()){

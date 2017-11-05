@@ -59,23 +59,6 @@ public class MainCommand implements CommandExecutor {
                     p.sendPluginMessage(ThisPlugin.getPlugin(), "BungeeCord", b.toByteArray());
                 }
             }
-            if(args[0].equalsIgnoreCase("fill")){
-                World world = Bukkit.getServer().getWorld("sg");
-                for (Chunk c : world.getLoadedChunks()) {
-                    for (BlockState b : c.getTileEntities()) {
-                        if (b instanceof Chest) {
-                            Chest chest = (Chest) b;
-                            Inventory inventory = chest.getBlockInventory();
-                            Material[] randomItens = {Material.COOKIE, Material.APPLE, Material.AIR, Material.STICK, Material.CARROT, Material.IRON_INGOT, Material.DIAMOND, Material.COBBLESTONE, Material.MUSHROOM_SOUP, Material.COOKED_FISH, Material.FISHING_ROD, Material.RAW_FISH, Material.COAL, Material.MELON, Material.GOLD_INGOT, Material.WOOD, Material.SUGAR, Material.BOW, Material.ARROW, Material.WOOD_SWORD, Material.STONE_SWORD, Material.WOOD_AXE, Material.STONE_AXE, Material.PUMPKIN_PIE, Material.GRILLED_PORK, Material.APPLE, Material.LEATHER_BOOTS, Material.LEATHER_CHESTPLATE, Material.LEATHER_HELMET, Material.LEATHER_LEGGINGS, Material.CHAINMAIL_BOOTS, Material.CHAINMAIL_CHESTPLATE, Material.CHAINMAIL_HELMET, Material.CHAINMAIL_LEGGINGS};
-                            Random randy = new Random();
-                            for (int i = 0; i < 4; i++) {
-                                Random rand = new Random();
-                                inventory.setItem(randy.nextInt(27), new ItemStack(randomItens[rand.nextInt(randomItens.length)]));
-                            }
-                        }
-                    }
-                }
-            }
         }
         return true;
     }

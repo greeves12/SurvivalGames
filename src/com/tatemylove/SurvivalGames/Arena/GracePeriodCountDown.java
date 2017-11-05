@@ -13,6 +13,7 @@ public class GracePeriodCountDown extends BukkitRunnable {
             if (timeuntilstart == 0) {
                 for (Player p : Main.PlayingPlayers) {
                     SendCoolMessages.sendTitle(p, "§5Combat has started!", 30, 50, 30);
+                    p.sendMessage(Main.prefix + "§5Combat has started!");
                 }
                 Main.stopGracePeriod();
             }
@@ -20,6 +21,7 @@ public class GracePeriodCountDown extends BukkitRunnable {
                 if (timeuntilstart % 10 == 0) {
                     for (Player p : Main.PlayingPlayers) {
                         SendCoolMessages.sendTitle(p, "§3" + timeuntilstart + " §2seconds!", 30, 50, 30);
+                        p.sendMessage(Main.prefix + "§3Combat starting in §2" + timeuntilstart + " §2seconds!");
                     }
                 }
             }

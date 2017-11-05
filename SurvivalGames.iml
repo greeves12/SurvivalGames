@@ -10,17 +10,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Desktop/BuildTools/craftbukkit-1.8.8.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/Desktop/BuildTools/craftbukkit-1.8.8.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://$USER_HOME$/Desktop/Servers/Test Server - Bungee 3/plugins/ProtocolLib.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -30,10 +19,12 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Desktop/ProtocolLib.jar!/" />
+          <root url="jar://$USER_HOME$/Desktop/BuildTools/craftbukkit-1.12.2.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/Desktop/BuildTools/craftbukkit-1.12.2.jar!/" />
+        </SOURCES>
       </library>
     </orderEntry>
   </component>

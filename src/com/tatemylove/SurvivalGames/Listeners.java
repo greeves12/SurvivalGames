@@ -9,11 +9,10 @@ import com.tatemylove.SurvivalGames.ThisPlugin.ThisPlugin;
 import com.tatemylove.SurvivalGames.Utilities.Deaths;
 import com.tatemylove.SurvivalGames.Utilities.Kills;
 import com.tatemylove.SurvivalGames.Utilities.SendCoolMessages;
-import net.minecraft.server.v1_8_R3.PacketPlayInClientCommand;
+import net.minecraft.server.v1_12_R1.PacketPlayInClientCommand;
 import org.bukkit.*;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -42,7 +41,7 @@ public class Listeners implements Listener {
             Main.WaitingPlayers.add(p);
             e.setJoinMessage(Main.prefix + "§e" + p.getName() + " §bhas joined the queue!");
             p.getInventory().clear();
-            p.getInventory().setItem(8, Inventories.itemAPI(Material.GLOWSTONE_DUST, "§bReturn to hub", null));
+            p.getInventory().setItem(8, Inventories.itemAPI(Material.GLOWSTONE_DUST, "§b§lReturn to hub", null));
             p.teleport(SetLobby.getLobby());
             p.setFireTicks(0);
         }
@@ -159,7 +158,7 @@ public class Listeners implements Listener {
         Player p = e.getPlayer();
         Action action = e.getAction();
         if(Main.WaitingPlayers.contains(p)){
-            if(action == Action.RIGHT_CLICK_AIR && p.getItemInHand().getType() == Material.GLOWSTONE_DUST){
+            if(action == Action.RIGHT_CLICK_AIR && p.getInventory().getItemInMainHand().getType() == Material.GLOWSTONE_DUST){
                 ByteArrayOutputStream b = new ByteArrayOutputStream();
                 DataOutputStream out = new DataOutputStream(b);
                 try{
@@ -194,6 +193,13 @@ public class Listeners implements Listener {
     @EventHandler
     public void foodChange(FoodLevelChangeEvent e){
         Player p = (Player) e.getEntity();
+        if(Main.WaitingPlayers.contains(p)){
+            e.setCancelled(true);
+        }
+    }
+    @EventHandler
+    public void noSwap(PlayerSwapHandItemsEvent e){
+        Player p = e.getPlayer();
         if(Main.WaitingPlayers.contains(p)){
             e.setCancelled(true);
         }

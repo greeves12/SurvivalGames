@@ -34,6 +34,7 @@ public class GameCountdown extends BukkitRunnable{
                 for (Player p : Main.WaitingPlayers) {
                     if (Main.WaitingPlayers.size() >= Main.min_players) {
                         SendCoolMessages.sendTitle(p, "§3Starting in §a" + timeuntilstart + " §2seconds", 30, 50, 30);
+                        p.sendMessage(Main.prefix + "§3Starting in §a" + timeuntilstart + " §2seconds");
                     }
                 }
             }

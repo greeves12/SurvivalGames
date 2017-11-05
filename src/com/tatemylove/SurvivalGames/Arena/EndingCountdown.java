@@ -76,7 +76,6 @@ public class EndingCountdown extends BukkitRunnable {
                             .build());
                     fmeta.setPower(2);
                     f.setFireworkMeta(fmeta);
-                    p.sendMessage(Main.prefix + "§aTeleporting you back to the Hub in §5" + timeuntilend + " seconds");
                 }
             }
             }

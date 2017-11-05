@@ -13,6 +13,7 @@ public class WaitingCountdown extends BukkitRunnable {
             if(timuntilstart == 0) {
                 for (Player p : Main.PlayingPlayers) {
                     SendCoolMessages.sendTitle(p, "§cGrace Period Starting!", 10, 30, 10);
+                    p.sendMessage(Main.prefix + "§cGrace Period Starting!");
                 }
                 Main.stopWaitingCountdown();
                 Main.startGracePeriod();
@@ -21,6 +22,7 @@ public class WaitingCountdown extends BukkitRunnable {
                 if (timuntilstart % 1 == 0) {
                     for (Player p : Main.PlayingPlayers) {
                         SendCoolMessages.sendTitle(p, "§6Starting in §3" + timuntilstart + " §2seconds", 10, 30, 10);
+                        p.sendMessage(Main.prefix + "§6Game Starting in §3" + timuntilstart + " §2seconds");
                     }
                 }
             }

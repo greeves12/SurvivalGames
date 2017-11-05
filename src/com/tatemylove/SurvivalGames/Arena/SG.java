@@ -45,6 +45,7 @@ public class SG {
                     }
                 }
             }
+            Bukkit.setWhitelist(true);
         }
     }
 
@@ -52,6 +53,8 @@ public class SG {
         if(BaseArena.states  == BaseArena.ArenaStates.Ended){
             for(Player p : Main.PlayingPlayers){
                 SendCoolMessages.sendTitle(p, "§7You have won the Game!", 30, 50, 30);
+                p.sendMessage(Main.prefix + "§7You have won the Game!");
+                p.sendMessage(Main.prefix + "§aTeleporting you back to the Hub in §55" + " seconds");
             }
         }
     }
